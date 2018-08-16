@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Item from './item';
 import Input from './input';
+import { formatPostData } from '../../helpers';
 import './list.css';
 
 class ToDoList extends Component {
@@ -25,16 +26,20 @@ class ToDoList extends Component {
     }
 
     async componentWillMount() {
-        //this.getListData();
+        this.getListData();
 
-        const resp = await axios.get('http://localhost:8000/api/index.php');
 
-        console.log('Resp from server:', resp);
+
+
     }
 
     async getListData() {
         // Use get request to get list data
-        const response = { data: {}}; // Remove
+        const response = await axios.get('/api/todos.php', {
+            params: {
+                action: 'get_all_todos'
+            }
+        });
 
         const { message, listItems } = response.data;
 
